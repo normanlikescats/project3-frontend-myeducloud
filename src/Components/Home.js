@@ -23,15 +23,6 @@ export default function Home() {
   console.log(isAuthenticated);
   return (
     <div>
-      <Navbar>
-        <Container>
-          <Nav className="navbar">
-            <Link to="/">Home</Link>
-            <Link to="/profile">My Profile</Link>
-            <Link to="/class">My Class</Link>
-          </Nav>
-        </Container>
-      </Navbar>{" "}
       <div>Welcome to MyEduCloud</div>
       <div>{isAuthenticated ? logoutButton : loginButton}</div>
     </div>

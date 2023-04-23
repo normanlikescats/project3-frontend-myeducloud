@@ -8,7 +8,7 @@ export default function NavBar() {
         <Nav className="navbar">
           <Link to="/">Home</Link>
           <Link to="/profile">My Profile</Link>
-          <Link to="/class">My Class</Link>
+          <Link to="/class/">My Class</Link>
         </Nav>
       </Container>
     </Navbar>
