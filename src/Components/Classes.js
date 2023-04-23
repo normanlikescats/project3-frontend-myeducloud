@@ -39,7 +39,6 @@ export default function Classes() {
     getAllClasses();
     checkUserClassSubject();
   }, []);
-  console.log(myClass);
 
   const handleJoinButton = async (e) => {
     const classId = e.target.id;

@@ -12,7 +12,6 @@ import Subject from "./Components/Subject";
 import SubjectsList from "./Components/SubjectsList";
 import { UserProvider } from "./Context/UserContext";
 import "bootstrap/dist/css/bootstrap.min.css";
-import NavBar from "./Components/Navbar";
 
 function App() {
   return (
