@@ -26,15 +26,12 @@ export default function Profile() {
   const [editStatus, setEditStatus] = useState(false);
 
   useEffect(() => {
+    checkUser();
     retrieveProfile();
-
-    if (profile.first_name === null) {
-      alert("Please Edit Your Profile");
-      setEditStatus(true);
-    }
   }, []);
+  console.log(accessToken);
 
-  const retrieveProfile = async () => {
+  const checkUser = async () => {
     if (!isAuthenticated) {
       navigate("/");
     } else {
@@ -43,29 +40,36 @@ export default function Profile() {
         scope: "openid profile email phone",
       });
       setAccessToken(token);
-
-      await axios
-        .post(
-          `${BACKEND_URL}/profile`,
-          {
-            userEmail: user.email,
-          },
-          {
-            headers: {
-              Authorization: `Bearer ${accessToken}`,
-            },
-          }
-        )
-        .then((res) => {
-          const { data } = res;
-          setProfile(data[0]);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
     }
   };
 
+  const retrieveProfile = async () => {
+    await axios
+      .post(
+        `${BACKEND_URL}/profile`,
+        {
+          userEmail: user.email,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      )
+      .then((res) => {
+        const { data } = res;
+        setProfile(data[0]);
+        if (data[0].last_name === null) {
+          alert("Please Edit Your Profile");
+          setEditStatus(true);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  console.log(profile);
   const displayProfile = (
     <div>
       <div>
@@ -81,13 +85,21 @@ export default function Profile() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     await axios
-      .put(`${BACKEND_URL}/profile`, {
-        first_name: firstName,
-        last_name: lastName,
-        status: status,
-        photo_url: photoUrl,
-        userEmail: user.email,
-      })
+      .put(
+        `${BACKEND_URL}/profile`,
+        {
+          first_name: firstName,
+          last_name: lastName,
+          status: status,
+          photo_url: photoUrl,
+          userEmail: user.email,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      )
       .then((res) => {
         const { data } = res;
         setProfile(data[0]);

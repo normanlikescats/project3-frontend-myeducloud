@@ -12,12 +12,15 @@ import Subject from "./Components/Subject";
 import SubjectsList from "./Components/SubjectsList";
 import { UserProvider } from "./Context/UserContext";
 import "bootstrap/dist/css/bootstrap.min.css";
+import NavBar from "./Components/Navbar";
 
 function App() {
   return (
     <UserProvider>
       <BrowserRouter>
         <div className="App">
+          <header>
+            <NavBar />
           <header className="App-header">
             <Routes>
               <Route path="/" element={<Home />} />

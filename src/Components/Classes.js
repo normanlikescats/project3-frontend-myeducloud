@@ -2,7 +2,7 @@ import axios from "axios";
 import React, { useState, useEffect, useContext } from "react";
 import { BACKEND_URL } from "../constant";
 import { UserContext } from "../Context/UserContext";
-import { Button, Nav } from "react-bootstrap";
+import { Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
 export default function Classes() {
@@ -12,7 +12,11 @@ export default function Classes() {
   const [userId, setUserId] = useState();
   const [myClass, setMyClass] = useState();
 
-  console.log(user.dbUser);
+  useEffect(() => {
+    setUserId(user.dbUser.id);
+    checkUserClassSubject();
+    getAllClasses();
+  }, [userId]);
 
   const getAllClasses = async () => {
     await axios.get(`${BACKEND_URL}/class`).then((res) => {
@@ -22,23 +26,17 @@ export default function Classes() {
   };
 
   const checkUserClassSubject = async () => {
-    console.log(user.dbUser.id);
-    await axios
-      .get(`${BACKEND_URL}/class/myclass`, { userId: userId })
-      .then((res) => {
-        const { data } = res;
-        setMyClass(data);
-        if (res.data.class_subjects.length > 0) {
-          setClassStatus(false);
-        }
-      });
+    await axios.get(`${BACKEND_URL}/class/${userId}`).then((res) => {
+      const { data } = res;
+      console.log(data);
+      setMyClass(data);
+      if (res.data.class_subjects.length > 0) {
+        setClassStatus(false);
+      } else {
+        alert("Please join a class");
+      }
+    });
   };
-
-  useEffect(() => {
-    setUserId(user.dbUser.id);
-    getAllClasses();
-    checkUserClassSubject();
-  }, []);
 
   const handleJoinButton = async (e) => {
     const classId = e.target.id;
@@ -50,6 +48,7 @@ export default function Classes() {
       })
       .then((res) => {
         console.log(res);
+        setClassStatus(false);
       });
   };
 
@@ -66,20 +65,18 @@ export default function Classes() {
 
   return (
     <div>
-      {myClass ? (
-        <div>
-          Class Joined: {myClass ? myClass.class_subjects[0].name : null}
-        </div>
-      ) : (
+      {classStatus ? (
         <div>
           Available Classes:
           {displayClasses}
         </div>
+      ) : (
+        <div>Class Joined: {myClass.class_subjects[0].name}</div>
       )}
       <div>
         {user ? (
           <div>
-            <Link to={`/question/${userId}`}>My Questionnaire</Link>
+            <Link to={`/questions`}>My Questionnaire</Link>
           </div>
         ) : null}
       </div>
