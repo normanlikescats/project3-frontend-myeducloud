@@ -21,6 +21,7 @@ function App() {
         <div className="App">
           <header>
             <NavBar />
+          <header className="App-header">
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/profile" element={<Profile />} />
