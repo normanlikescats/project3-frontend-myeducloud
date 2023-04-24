@@ -18,7 +18,7 @@ function App() {
     <UserProvider>
       <BrowserRouter>
         <div className="App">
-          <header>
+          <header className="App-header">
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/profile" element={<Profile />} />
