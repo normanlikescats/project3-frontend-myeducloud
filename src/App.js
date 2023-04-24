@@ -34,10 +34,13 @@ function App() {
               <Route path="/*" element={<Error />} />
             </Routes>
           </header>
+        </header>
         </div>
       </BrowserRouter>
     </UserProvider>
   );
 }
+
+
 
 export default App;
