@@ -45,25 +45,13 @@ export default function Chatroom() {
   };
 
   return (
-    <div>
-      <div>Chatroom {chatroomIndex}</div>
+    <div className="chat-comp">
       {!showChat ? (
         <div className="joinChatContainer">
           <h3>Joining class chat...</h3>
-          {/* <input
-            type="text"
-            placeholder="Username"
-            onChange={(event) => {
-              setUsername(event.target.value);
-            }}
-          />
-
-          <button onClick={joinRoom}>Join a room</button> */}
-          {/* <div>{dbUser && dbUser.first_name} is online</div> */}
           <div>
             {dbUser ? `${dbUser.first_name} is online` : "Loading user..."}
           </div>
-          <div>{loginButton}</div>
         </div>
       ) : (
         <>

@@ -10,6 +10,8 @@ import {
   FormControl,
   Button,
 } from "react-bootstrap";
+import Classes from "./Classes";
+import { Link } from "react-router-dom";
 
 export default function Profile() {
   const { isAuthenticated, user, getAccessTokenSilently } = useAuth0();
@@ -24,53 +26,80 @@ export default function Profile() {
   const [editStatus, setEditStatus] = useState(false);
 
   useEffect(() => {
-    if (isAuthenticated) {
-      retrieveProfile();
-    } else {
-      navigate("/");
-    }
-    if (profile.first_name === null) {
-      alert("Please Edit Your Profile");
-      setEditStatus(true);
-    }
+    checkUser();
+    retrieveProfile();
   }, []);
+  console.log(accessToken);
+
+  const checkUser = async () => {
+    if (!isAuthenticated) {
+      navigate("/");
+    } else {
+      let token = await getAccessTokenSilently({
+        audience: process.env.REACT_APP_AUDIENCE,
+        scope: "openid profile email phone",
+      });
+      setAccessToken(token);
+    }
+  };
 
   const retrieveProfile = async () => {
     await axios
-      .post(`${BACKEND_URL}/profile`, {
-        userEmail: user.email,
-      })
+      .post(
+        `${BACKEND_URL}/profile`,
+        {
+          userEmail: user.email,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      )
       .then((res) => {
         const { data } = res;
         setProfile(data[0]);
+        if (data[0].last_name === null) {
+          alert("Please Edit Your Profile");
+          setEditStatus(true);
+        }
       })
       .catch((err) => {
         console.log(err);
       });
   };
+
   console.log(profile);
   const displayProfile = (
     <div>
       <div>
         <img src={`${photoUrl}`} />
       </div>
+      <div>ID: {profile.id}</div>
       <div>First Name: {profile.first_name}</div>
       <div>Last Name: {profile.last_name}</div>
-      <div>Email: {user.email}</div>
-      <div></div>
+      <div>Email: {profile.email}</div>
     </div>
   );
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     await axios
-      .put(`${BACKEND_URL}/profile`, {
-        first_name: firstName,
-        last_name: lastName,
-        status: status,
-        photo_url: photoUrl,
-        userEmail: user.email,
-      })
+      .put(
+        `${BACKEND_URL}/profile`,
+        {
+          first_name: firstName,
+          last_name: lastName,
+          status: status,
+          photo_url: photoUrl,
+          userEmail: user.email,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      )
       .then((res) => {
         const { data } = res;
         setProfile(data[0]);
@@ -103,7 +132,7 @@ export default function Profile() {
       </Form>
     </div>
   );
-  console.log(editStatus);
+
   return (
     <div>
       <div>My Profile</div>

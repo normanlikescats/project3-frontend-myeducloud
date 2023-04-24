@@ -32,9 +32,11 @@ export default function Chat({
   };
 
   useEffect(() => {
+    let hasRun = false; // running twice on FE
     socket.on("load_messages", (data) => {
-      // console.log("loaded messages", data);
-      setMessageList((list) => [...list, ...data]);
+      console.log("loaded messages", data);
+      if (!hasRun) setMessageList((list) => [...list, ...data]);
+      hasRun = true;
     });
     // console.log(messageList);
   }, [socket]);
@@ -47,14 +49,10 @@ export default function Chat({
     console.log(messageList);
   }, [socket]);
 
-  // useEffect(() => {
-  //   console.log("User:", username);
-  // });
-
   return (
     <div className="chat-window">
       <div className="chat-header">
-        <p>Live Chat</p>
+        <p>Class room {chatroomIndex}</p>
       </div>
       <div className="chat-body">
         <ScrollToBottom className="message-container">
