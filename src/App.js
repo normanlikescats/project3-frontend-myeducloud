@@ -12,6 +12,7 @@ import Subject from "./Components/Subject";
 import SubjectsList from "./Components/SubjectsList";
 import { UserProvider } from "./Context/UserContext";
 import "bootstrap/dist/css/bootstrap.min.css";
+import NavBar from "./Components/Navbar";
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
       <BrowserRouter>
         <div className="App">
           <header>
+            <NavBar />
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/profile" element={<Profile />} />
