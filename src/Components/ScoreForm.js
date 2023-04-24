@@ -31,7 +31,7 @@ export default function QuestionForm(props){
         score: score
       }).then(()=>{
         alert("Score updated")
-        navigate(`/questions/${props.question_id}`)
+        navigate(`/questions/${testId}/${props.question_id}`)
       })
     } else{
     axios.post(`${process.env.REACT_APP_BACKEND_URL}/score/add/${props.student_answer_id}`, {
@@ -41,13 +41,11 @@ export default function QuestionForm(props){
       score: score,
       }).then(()=>{
         alert("Score submitted")
-        navigate(`/questions/${props.question_id}`)
+        navigate(`/questions/${testId}/${props.question_id}`)
       })
     }
   }
 
-  console.log(score)
-  console.log(scored)
   return(
     <form onSubmit={handleSubmit}>
       <p>Score: </p>

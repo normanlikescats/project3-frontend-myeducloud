@@ -27,7 +27,7 @@ export default function QuestionEditForm(props){
   }).then((response)=>{
     console.log(response.data.id)
     props.setEditMode(false)
-    navigate(`/questions/${response.data.id}`)
+    navigate(`/questions/${testId}/${response.data.id}`)
   }).catch(function (error) {
     console.log(error);
   });

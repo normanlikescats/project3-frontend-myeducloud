@@ -1,12 +1,12 @@
 import React from "react";
 import { useState, useEffect } from 'react';
 import axios from "axios";
-import { Navigate, useLocation } from 'react-router-dom'
+import { useNavigate, useLocation } from 'react-router-dom'
 import QuestionEditForm from "./QuestionEditForm";
 import { UserContext } from "../Context/UserContext";
 import ScoreForm from "./ScoreForm"
 import { useContext } from "react";
-import { useNavigate } from "react-router-dom";
+import Test from "./Test";
 
 export default function Question(props){
   //const { user } = useContext(UserContext);
@@ -17,11 +17,12 @@ export default function Question(props){
   const [answerChange, setAnswerChange] = useState(0)
   const [studentAnswersArray, setStudentAnswersArray] = useState([])
   const [editMode, setEditMode] = useState(false)
+  const [testId, setTestId] = useState('')
   const optionsArray = ['A', 'B', 'C', 'D', 'E']
   const navigate = useNavigate();
   const location = useLocation();
   const pathname = location.pathname.split('/')
-  const questionId = pathname[2]
+  const questionId = pathname[3]
   //console.log(user)
   
   // Pull question and options
@@ -29,6 +30,7 @@ export default function Question(props){
     axios.get(`${process.env.REACT_APP_BACKEND_URL}/questionnaire/question/${questionId}`).then((response)=>{
       setOptions([response.data[0].option_a, response.data[0].option_b, response.data[0].option_c, response.data[0].option_d, response.data[0].option_e])
       setQuestion(response.data[0].question)
+      setTestId(response.data[0].test_id)
     })
   },[editMode])
 
@@ -36,8 +38,6 @@ export default function Question(props){
   // put in user id once i build it
   useEffect(()=>{
     axios.get(`${process.env.REACT_APP_BACKEND_URL}/answers/${questionId}/2`).then((response)=>{
-      console.log(response.data)
-      console.log(response.data.length !== 0)
       if(response.data.length !== 0){
         console.log("we have answer!!!")
         setSelectedOption(response.data[0].answer)
@@ -87,7 +87,7 @@ export default function Question(props){
   function handleDelete(){
     axios.delete(`${process.env.REACT_APP_BACKEND_URL}/questionnaire/delete/${questionId}`).then(()=>{
       alert("Question Deleted!")
-      navigate("/questions")
+      navigate(`/questions/${testId}`)
     })
   };
 
@@ -133,18 +133,20 @@ export default function Question(props){
 
   return(
     <div>
-      <button onClick={()=> setEditMode(true)}>{editMode ? "Cancel" : "Edit" }</button>
+      <button onClick={()=>{setEditMode(!editMode)}}>{editMode ? "Cancel" : "Edit"}</button>
       <button onClick={handleDelete}>Delete</button>
       {editMode ?
       <QuestionEditForm 
       options={options}
       question={question}
       questionId = {questionId}
+      testId = {testId}
       setEditMode = {setEditMode}
       /> :      
         <form onSubmit={handleSubmit}>
           <h2>Question</h2>
-          <h6>{props.question}</h6>
+          
+          <h6>{question}</h6>
           {optionsComponent}
           <input type="submit" value="Submit Answer"/>
         </form>

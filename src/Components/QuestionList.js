@@ -2,31 +2,30 @@ import React from "react";
 import QuestionForm from "./QuestionForm";
 import { useState, useEffect } from 'react';
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 
-// pass test id via props
-export default function QuestionList(props){
+export default function QuestionList(){
   const navigate = useNavigate();
+  const location = useLocation();
+  const pathname = location.pathname.split("/")
+  const testId = pathname[2]
   const [questions, setQuestions] = useState([])
+
   
   useEffect(()=>{
-    // add in props.testid once it's built
-    axios.get(`${process.env.REACT_APP_BACKEND_URL}/questionnaire/1`).then((response)=>{
+    axios.get(`${process.env.REACT_APP_BACKEND_URL}/questionnaire/${testId}`).then((response)=>{
       setQuestions(response.data)
     })
   },[])
 
   function handleDelete(id){
-    // add in props.testid once it's built
     axios.delete(`${process.env.REACT_APP_BACKEND_URL}/questionnaire/delete/${id}`).then(()=>{
-      navigate("/questions")
+      navigate(`/questions/${testId}`)
     })
   }
 
   function handleClick(id){
-    console.log(`id: ${id}`)
-    console.log(id)
-    navigate(`/questions/${id}`)
+    navigate(`/questions/${testId}/${id}`)
   }
 
   let questionItems;
@@ -50,7 +49,7 @@ export default function QuestionList(props){
   
   return(
     <div>
-      All the Questions!
+      Test {testId}!
       <QuestionForm testId={1} />
       {questionItems}
     </div>
