@@ -26,7 +26,7 @@ export default function QuestionForm(props){
   }).then((response)=>{
     console.log("response")
     console.log(response.data.id)
-    navigate(`/questions/${response.data.id}`)
+    navigate(`/questions/${testId}/${response.data.id}`)
   }).catch(function (error) {
     console.log(error);
   });

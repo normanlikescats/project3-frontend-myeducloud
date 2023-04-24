@@ -13,6 +13,7 @@ import SubjectsList from "./Components/SubjectsList";
 import { UserProvider } from "./Context/UserContext";
 import "bootstrap/dist/css/bootstrap.min.css";
 import NavBar from "./Components/Navbar";
+import Test from "./Components/Test";
 
 function App() {
   return (
@@ -27,8 +28,9 @@ function App() {
               <Route path="/class/" element={<Classes />} />
               <Route path="/subjects" element={<SubjectsList />} />
               <Route path="/subjects/:id" element={<Subject />} />
-              <Route path="/questions" element={<QuestionList />} />
-              <Route path="/question/:id" element={<Question />} />
+              <Route path="/tests" element={<Test />} />
+              <Route path="/questions/:testId" element={<QuestionList />} />
+              <Route path="/questions/:testId/:id" element={<Question />} />
               <Route path="/chatroom/:id" element={<Chatroom />} />
               <Route path="/*" element={<Error />} />
             </Routes>
