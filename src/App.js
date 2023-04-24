@@ -39,6 +39,8 @@ function App() {
       </BrowserRouter>
     </UserProvider>
   );
-  }
+}
+
+
 
 export default App;
