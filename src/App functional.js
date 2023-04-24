@@ -27,7 +27,7 @@ function App() {
               <Route path="/subjects" element={<SubjectsList />} />
               <Route path="/subjects/:id" element={<Subject />} />
               <Route path="/questions" element={<QuestionList />} />
-              <Route path="/question/:id" element={<Question />} />
+              <Route path="/questions/:id" element={<Question />} />
               <Route path="/chatroom/:id" element={<Chatroom />} />
               <Route path="/*" element={<Error />} />
             </Routes>
