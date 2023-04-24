@@ -20,7 +20,7 @@ function App() {
     <UserProvider>
       <BrowserRouter>
         <div className="App">
-            <NavBar />
+          <NavBar />
           <header className="App-header">
             <Routes>
               <Route path="/" element={<Home />} />
@@ -39,6 +39,6 @@ function App() {
       </BrowserRouter>
     </UserProvider>
   );
-  }
+}
 
 export default App;
