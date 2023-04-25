@@ -10,7 +10,6 @@ import {
   FormControl,
   Button,
 } from "react-bootstrap";
-import Test from "./Test";
 
 export default function Profile() {
   const { isAuthenticated, user, getAccessTokenSilently } = useAuth0();
@@ -78,6 +77,7 @@ export default function Profile() {
       <div>First Name: {profile.first_name}</div>
       <div>Last Name: {profile.last_name}</div>
       <div>Email: {profile.email}</div>
+      <div>Status: {profile.status ? "Teacher" : "Student"}</div>
     </div>
   );
 
@@ -124,6 +124,17 @@ export default function Profile() {
             value={lastName}
             onChange={(e) => setLastName(e.target.value)}
           />
+        </FormGroup>
+        <FormGroup>
+          <FormControl
+            as="select"
+            onChange={(e) => {
+              setStatus(e.target.value);
+            }}
+          >
+            <option value={false}>Student</option>
+            <option value={true}>Teacher</option>
+          </FormControl>
         </FormGroup>
         <Button type="submit" value="submit">
           Submit

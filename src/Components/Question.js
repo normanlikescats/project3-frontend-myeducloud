@@ -8,6 +8,7 @@ import ScoreForm from "./ScoreForm";
 import { useContext } from "react";
 import Test from "./Test";
 import { BACKEND_URL } from "../constant";
+import Comment from "./Comment";
 
 export default function Question(props) {
   //const { user } = useContext(UserContext);
@@ -194,6 +195,9 @@ export default function Question(props) {
         </form>
       )}
       {studentAnswersComponent}
+      <div>
+        <Comment questionId={questionId} />
+      </div>
     </div>
   );
 }
