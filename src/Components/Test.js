@@ -3,6 +3,8 @@ import axios from "axios";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { BACKEND_URL } from "../constant";
+import TestForm from "./TestForm";
+
 
 export default function Test() {
   const navigate = useNavigate();
@@ -29,6 +31,7 @@ export default function Test() {
   return (
     <div>
       All the Tests
+      <TestForm/>
       {testItems}
     </div>
   );
