@@ -76,10 +76,16 @@ export default function Classes() {
       <div>
         {classStatus ? null : (
           <div>
-            <Link to={`/questions`}>My Questionnaire</Link>
-            <Link to={`/chatroom/${myClass.class_subjects[0].id}`}>
+            <Button as={Link} to={`/questions`}>
+              My Questionnaire
+            </Button>
+            <Button
+              variant="success"
+              as={Link}
+              to={`/chatroom/${myClass.class_subjects[0].id}`}
+            >
               My Chatroom
-            </Link>
+            </Button>
           </div>
         )}
       </div>

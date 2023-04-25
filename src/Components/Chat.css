@@ -76,7 +76,7 @@
 .chat-window .chat-header {
   height: 45px;
   border-radius: 6px;
-  background: #263238;
+  background: #55666e;
   position: relative;
   cursor: pointer;
 }
@@ -91,6 +91,7 @@
 .chat-window .chat-body {
   height: calc(450px - (45px + 70px));
   border: 1px solid #263238;
+  border-radius: 6px;
   background: #fff;
 
   position: relative;
@@ -180,6 +181,8 @@
   padding: 0 0.7em;
   font-size: 1em;
   border-right: 1px dotted #607d8b;
+  border-bottom-left-radius: 6px;
+  border-top-left-radius: 6px;
 
   outline: none;
   font-family: "Open Sans", sans-serif;
@@ -196,6 +199,8 @@
   outline: none;
   font-size: 25px;
   color: #ffffff;
+  border-bottom-right-radius: 6px;
+  border-top-right-radius: 6px;
 }
 
 .chat-window .chat-footer button:hover {

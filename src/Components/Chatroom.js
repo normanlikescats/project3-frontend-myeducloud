@@ -4,7 +4,8 @@ import { useParams } from "react-router-dom";
 import io from "socket.io-client";
 import Chat from "./Chat";
 import { UserAuth } from "../Context/UserContext";
-import "../Chat.css";
+import "./Chat.css";
+import NavBar from "./Navbar";
 
 const socket = io.connect("http://localhost:8080");
 

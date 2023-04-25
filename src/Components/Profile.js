@@ -9,8 +9,10 @@ import {
   FormLabel,
   FormControl,
   Button,
+  Table,
 } from "react-bootstrap";
 import Test from "./Test";
+import "./Profile.css";
 
 export default function Profile() {
   const { isAuthenticated, user, getAccessTokenSilently } = useAuth0();
@@ -23,6 +25,8 @@ export default function Profile() {
   const [photoUrl, setPhotoUrl] = useState("");
   const [profile, setProfile] = useState({});
   const [editStatus, setEditStatus] = useState(false);
+  const defaultProfilePic =
+    "https://cdn-icons-png.flaticon.com/512/847/847970.png?w=826&t=st=1682395723~exp=1682396323~hmac=8a0ac7236e2391452d71f488f252dbb730ec4412bed1e23abba30ac7421dff84";
 
   useEffect(() => {
     checkUser();
@@ -38,11 +42,13 @@ export default function Profile() {
         audience: process.env.REACT_APP_AUDIENCE,
         scope: "openid profile email phone",
       });
+      console.log("token", token);
       setAccessToken(token);
     }
   };
 
   const retrieveProfile = async () => {
+    console.log("accessToken", accessToken);
     await axios
       .post(
         `${BACKEND_URL}/profile`,
@@ -69,16 +75,54 @@ export default function Profile() {
   };
 
   console.log(profile);
+  // const displayProfile = (
+  //   <div>
+  //     <div>
+  //       <img src={`${photoUrl}`} />
+  //     </div>
+  //     <div>ID: {profile.id}</div>
+  //     <div>First Name: {profile.first_name}</div>
+  //     <div>Last Name: {profile.last_name}</div>
+  //     <div>Email: {profile.email}</div>
+  //   </div>
+  // );
+
   const displayProfile = (
-    <div>
-      <div>
-        <img src={`${photoUrl}`} />
+    <>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          margin: "20px",
+        }}
+      >
+        <img
+          src={`${profile.photoUrl ? profile.photoUrl : defaultProfilePic}`}
+          alt={profile.first_name || "Profile Picture"}
+          className="profile-pic"
+        />
       </div>
-      <div>ID: {profile.id}</div>
-      <div>First Name: {profile.first_name}</div>
-      <div>Last Name: {profile.last_name}</div>
-      <div>Email: {profile.email}</div>
-    </div>
+      <Table variant="dark" bg="dark" striped bordered hover>
+        <tbody>
+          <tr>
+            <td>ID:</td>
+            <td>{profile.id}</td>
+          </tr>
+          <tr>
+            <td>First Name:</td>
+            <td>{profile.first_name}</td>
+          </tr>
+          <tr>
+            <td>Last Name:</td>
+            <td>{profile.last_name}</td>
+          </tr>
+          <tr>
+            <td>Email:</td>
+            <td>{profile.email}</td>
+          </tr>
+        </tbody>
+      </Table>
+    </>
   );
 
   const handleSubmit = async (e) => {
@@ -136,7 +180,9 @@ export default function Profile() {
     <div>
       <div>My Profile</div>
       <div>
-        <Button onClick={(e) => setEditStatus(true)}>Edit Profile</Button>
+        <Button onClick={(e) => setEditStatus(!editStatus)}>
+          Edit Profile
+        </Button>
       </div>
       {editStatus ? editProfile : displayProfile}
     </div>
