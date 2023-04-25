@@ -17,15 +17,3 @@
   font-size: calc(10px + 2vmin);
   color: white;
 }
-
-.navbar.navbar-expand.navbar-light {
-  justify-items: left;
-  width: 50vw;
-  position: absolute;
-  left: 0;
-  top: 0;
-}
-
-.navbar.navbar-nav a {
-  margin: 1rem;
-}
