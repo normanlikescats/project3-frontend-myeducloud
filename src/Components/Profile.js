@@ -10,8 +10,7 @@ import {
   FormControl,
   Button,
 } from "react-bootstrap";
-import Classes from "./Classes";
-import { Link } from "react-router-dom";
+import Test from "./Test";
 
 export default function Profile() {
   const { isAuthenticated, user, getAccessTokenSilently } = useAuth0();

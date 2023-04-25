@@ -37,7 +37,7 @@ export default function Classes() {
       }
     });
   };
-
+  console.log();
   const handleJoinButton = async (e) => {
     const classId = e.target.id;
 
@@ -74,11 +74,14 @@ export default function Classes() {
         <div>Class Joined: {myClass.class_subjects[0].name}</div>
       )}
       <div>
-        {user ? (
+        {classStatus ? null : (
           <div>
             <Link to={`/questions`}>My Questionnaire</Link>
+            <Link to={`/chatroom/${myClass.class_subjects[0].id}`}>
+              My Chatroom
+            </Link>
           </div>
-        ) : null}
+        )}
       </div>
     </div>
   );

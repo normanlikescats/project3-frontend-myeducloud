@@ -12,6 +12,7 @@ export function UserProvider({ children }) {
   const { isAuthenticated, user, loginWithRedirect, getAccessTokenSilently } =
     useAuth0();
 
+
   const loginButton = (
     <Button onClick={() => loginWithRedirect()}>Log In</Button>
   );
