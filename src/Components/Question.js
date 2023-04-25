@@ -1,157 +1,199 @@
 import React from "react";
-import { useState, useEffect } from 'react';
+import { useState, useEffect } from "react";
 import axios from "axios";
-import { useNavigate, useLocation } from 'react-router-dom'
+import { useNavigate, useLocation } from "react-router-dom";
 import QuestionEditForm from "./QuestionEditForm";
 import { UserContext } from "../Context/UserContext";
-import ScoreForm from "./ScoreForm"
+import ScoreForm from "./ScoreForm";
 import { useContext } from "react";
 import Test from "./Test";
+import { BACKEND_URL } from "../constant";
 
-export default function Question(props){
+export default function Question(props) {
   //const { user } = useContext(UserContext);
-  const [options, setOptions] = useState([])
-  const [question, setQuestion] = useState('')
-  const[selectedOption, setSelectedOption] = useState(null)
-  const [answered, setAnswered ] = useState(false)
-  const [answerChange, setAnswerChange] = useState(0)
-  const [studentAnswersArray, setStudentAnswersArray] = useState([])
-  const [editMode, setEditMode] = useState(false)
-  const [testId, setTestId] = useState('')
-  const optionsArray = ['A', 'B', 'C', 'D', 'E']
+  const [options, setOptions] = useState([]);
+  const [question, setQuestion] = useState("");
+  const [selectedOption, setSelectedOption] = useState(null);
+  const [answered, setAnswered] = useState(false);
+  const [answerChange, setAnswerChange] = useState(0);
+  const [studentAnswersArray, setStudentAnswersArray] = useState([]);
+  const [editMode, setEditMode] = useState(false);
+  const [testId, setTestId] = useState("");
+  const optionsArray = ["A", "B", "C", "D", "E"];
   const navigate = useNavigate();
   const location = useLocation();
-  const pathname = location.pathname.split('/')
-  const questionId = pathname[3]
+  const pathname = location.pathname.split("/");
+  const questionId = pathname[3];
   //console.log(user)
-  
+
   // Pull question and options
-  useEffect(()=>{
-    axios.get(`${process.env.REACT_APP_BACKEND_URL}/questionnaire/question/${questionId}`).then((response)=>{
-      setOptions([response.data[0].option_a, response.data[0].option_b, response.data[0].option_c, response.data[0].option_d, response.data[0].option_e])
-      setQuestion(response.data[0].question)
-      setTestId(response.data[0].test_id)
-    })
-  },[editMode])
+  useEffect(() => {
+    axios
+      .get(`${BACKEND_URL}/questionnaire/question/${questionId}`)
+      .then((response) => {
+        setOptions([
+          response.data[0].option_a,
+          response.data[0].option_b,
+          response.data[0].option_c,
+          response.data[0].option_d,
+          response.data[0].option_e,
+        ]);
+        setQuestion(response.data[0].question);
+        setTestId(response.data[0].test_id);
+      });
+  }, [editMode]);
 
   // Pull student's answer if they have...
   // put in user id once i build it
-  useEffect(()=>{
-    axios.get(`${process.env.REACT_APP_BACKEND_URL}/answers/${questionId}/2`).then((response)=>{
-      if(response.data.length !== 0){
-        console.log("we have answer!!!")
-        setSelectedOption(response.data[0].answer)
-        setAnswered(true)
-      } else{
-        console.log("NO answer!!!")
+  useEffect(() => {
+    axios.get(`${BACKEND_URL}/answers/${questionId}/2`).then((response) => {
+      if (response.data.length !== 0) {
+        console.log("we have answer!!!");
+        setSelectedOption(response.data[0].answer);
+        setAnswered(true);
+      } else {
+        console.log("NO answer!!!");
       }
-    })
-  },[answerChange])
+    });
+  }, [answerChange]);
 
   // Pull all students answers if user is a teacher
-  useEffect(()=>{
-    axios.get(`${process.env.REACT_APP_BACKEND_URL}/answers/${questionId}`).then((response)=>{
-      setStudentAnswersArray(response.data)
-    })
-  },[answerChange])
+  useEffect(() => {
+    axios.get(`${BACKEND_URL}/answers/${questionId}`).then((response) => {
+      setStudentAnswersArray(response.data);
+    });
+  }, [answerChange]);
 
-
-  function handleSubmit(e){
+  function handleSubmit(e) {
     e.preventDefault();
     // answer submit here
-    console.log(selectedOption)
-    if (answered){
+    console.log(selectedOption);
+    if (answered) {
       // put back user.id once built
-      axios.put(`${process.env.REACT_APP_BACKEND_URL}/answers/${questionId}/2`,{
-        //fill this with user id
-        user_id: 2,
-        answer: selectedOption
-      }).then(()=>{
-        setAnswerChange((answerChange)=>{answerChange++})
-        alert("Answer Submitted!")
-      })
-    } else{
-      axios.post(`${process.env.REACT_APP_BACKEND_URL}/answers/${questionId}`,{
-        questionnaire_id: questionId,
-        //fill this with user id
-        user_id: 2,
-        answer: selectedOption
-      }).then(()=>{
-        setAnswered(true)
-        setAnswerChange((answerChange)=>{answerChange++})
-        alert("Answer Submitted!")
-      })
+      axios
+        .put(`${BACKEND_URL}/answers/${questionId}/2`, {
+          //fill this with user id
+          user_id: 2,
+          answer: selectedOption,
+        })
+        .then(() => {
+          setAnswerChange((answerChange) => {
+            answerChange++;
+          });
+          alert("Answer Submitted!");
+        });
+    } else {
+      axios
+        .post(`${BACKEND_URL}/answers/${questionId}`, {
+          questionnaire_id: questionId,
+          //fill this with user id
+          user_id: 2,
+          answer: selectedOption,
+        })
+        .then(() => {
+          setAnswered(true);
+          setAnswerChange((answerChange) => {
+            answerChange++;
+          });
+          alert("Answer Submitted!");
+        });
     }
   }
 
-  function handleDelete(){
-    axios.delete(`${process.env.REACT_APP_BACKEND_URL}/questionnaire/delete/${questionId}`).then(()=>{
-      alert("Question Deleted!")
-      navigate(`/questions/${testId}`)
-    })
-  };
+  function handleDelete() {
+    axios
+      .delete(`${BACKEND_URL}/questionnaire/delete/${questionId}`)
+      .then(() => {
+        alert("Question Deleted!");
+        navigate(`/questions/${testId}`);
+      });
+  }
 
   let optionsComponent;
 
-  if(options){
-    optionsComponent = options.map((option, counter)=>{
-      if(optionsArray.indexOf(selectedOption)===counter){
+  if (options) {
+    optionsComponent = options.map((option, counter) => {
+      if (optionsArray.indexOf(selectedOption) === counter) {
         //should add some styling to show selected option
-        return(
+        return (
           <div>
-            <input type="radio" name="options" value={optionsArray[counter]} onClick={(e)=> setSelectedOption(optionsArray[counter])} checked/>
+            <input
+              type="radio"
+              name="options"
+              value={optionsArray[counter]}
+              onClick={(e) => setSelectedOption(optionsArray[counter])}
+              checked
+            />
             <label>{option}</label>
           </div>
-        )
-      } else{
-        if(option){
-        return(
-          <div>
-            <input type="radio" name="options" value={optionsArray[counter]} onClick={(e)=> setSelectedOption(optionsArray[counter])}/>
-            <label>{option}</label>
-          </div>
-        )
-        } else{
-          return null
+        );
+      } else {
+        if (option) {
+          return (
+            <div>
+              <input
+                type="radio"
+                name="options"
+                value={optionsArray[counter]}
+                onClick={(e) => setSelectedOption(optionsArray[counter])}
+              />
+              <label>{option}</label>
+            </div>
+          );
+        } else {
+          return null;
         }
       }
-    })
-  };
+    });
+  }
 
   let studentAnswersComponent;
 
-  if(studentAnswersArray){
-    studentAnswersComponent = studentAnswersArray.map((answer)=>{
-      return(
+  if (studentAnswersArray) {
+    studentAnswersComponent = studentAnswersArray.map((answer) => {
+      return (
         <div>
-          <p>{answer.user.first_name} {answer.user.last_name}: {answer.answer}</p>
-          <ScoreForm user_id = {answer.user_id} question_id = {questionId} student_answer_id={answer.id}/>
+          <p>
+            {answer.user.first_name} {answer.user.last_name}: {answer.answer}
+          </p>
+          <ScoreForm
+            user_id={answer.user_id}
+            question_id={questionId}
+            student_answer_id={answer.id}
+          />
         </div>
-      )
-    })
+      );
+    });
   }
 
-  return(
+  return (
     <div>
-      <button onClick={()=>{setEditMode(!editMode)}}>{editMode ? "Cancel" : "Edit"}</button>
+      <button
+        onClick={() => {
+          setEditMode(!editMode);
+        }}
+      >
+        {editMode ? "Cancel" : "Edit"}
+      </button>
       <button onClick={handleDelete}>Delete</button>
-      {editMode ?
-      <QuestionEditForm 
-      options={options}
-      question={question}
-      questionId = {questionId}
-      testId = {testId}
-      setEditMode = {setEditMode}
-      /> :      
+      {editMode ? (
+        <QuestionEditForm
+          options={options}
+          question={question}
+          questionId={questionId}
+          testId={testId}
+          setEditMode={setEditMode}
+        />
+      ) : (
         <form onSubmit={handleSubmit}>
           <h2>Question</h2>
-          
+
           <h6>{question}</h6>
           {optionsComponent}
-          <input type="submit" value="Submit Answer"/>
+          <input type="submit" value="Submit Answer" />
         </form>
-      }
+      )}
       {studentAnswersComponent}
     </div>
-  )
+  );
 }
