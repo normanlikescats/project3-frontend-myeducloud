@@ -19,8 +19,7 @@ function App() {
     <UserProvider>
       <BrowserRouter>
         <div className="App">
-          <header>
-            <NavBar />
+          <NavBar />
           <header className="App-header">
             <Routes>
               <Route path="/" element={<Home />} />
