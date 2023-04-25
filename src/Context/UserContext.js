@@ -9,6 +9,7 @@ export const UserContext = createContext("test");
 export function UserProvider({ children }) {
   const [dbUser, setDbUser] = useState(null);
   const { isAuthenticated, user, loginWithRedirect } = useAuth0();
+  const [accessToken, setAccessToken] = useState();
 
   const loginButton = (
     <Button onClick={() => loginWithRedirect()}>Log In</Button>
@@ -28,13 +29,25 @@ export function UserProvider({ children }) {
       });
   };
 
+  const checkUser = async () => {
+    if (!isAuthenticated) {
+      navigate("/");
+    } else {
+      let token = await getAccessTokenSilently({
+        audience: process.env.REACT_APP_AUDIENCE,
+        scope: "openid profile email phone",
+      });
+      setAccessToken(token);
+    }
+  };
+
   useEffect(() => {
-    // to make sure user data from db is called once
-    if (isAuthenticated) retrieveProfile();
+    checkUser();
+    retrieveProfile();
   }, [isAuthenticated]);
 
   return (
-    <UserContext.Provider value={{ dbUser, loginButton }}>
+    <UserContext.Provider value={{ dbUser, loginButton, accessToken }}>
       {children}
     </UserContext.Provider>
   );

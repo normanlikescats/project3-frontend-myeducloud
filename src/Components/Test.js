@@ -1,40 +1,38 @@
 import React from "react";
 import axios from "axios";
-import { useState, useEffect } from 'react';
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import { BACKEND_URL } from "../constant";
 import TestForm from "./TestForm";
 
-export default function Test(){
+
+export default function Test() {
   const navigate = useNavigate();
-  const [tests, setTests] = useState('')
+  const [tests, setTests] = useState("");
 
-  useEffect(()=>{
-    axios.get(`${process.env.REACT_APP_BACKEND_URL}/test/all`).then((response)=>{
-      setTests(response.data)
-    })
-  },[])
+  useEffect(() => {
+    axios.get(`${BACKEND_URL}/test/all`).then((response) => {
+      setTests(response.data);
+    });
+  }, []);
 
-  function handleClick(testId){
-    navigate(`/questions/${testId}`)
+  function handleClick(testId) {
+    navigate(`/questions/${testId}`);
   }
 
   let testItems;
 
-  if(tests){
-    testItems = tests.map((test)=>{
-      return(
-        <div onClick={()=>handleClick(test.id)}>
-          Test:  {test.name}
-        </div>
-      )
-    })
+  if (tests) {
+    testItems = tests.map((test) => {
+      return <div onClick={() => handleClick(test.id)}>Test: {test.name}</div>;
+    });
   }
 
-  return(
+  return (
     <div>
       All the Tests
       <TestForm/>
       {testItems}
     </div>
-  )
+  );
 }

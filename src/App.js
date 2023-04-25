@@ -8,8 +8,6 @@ import QuestionList from "./Components/QuestionList";
 import Question from "./Components/Question";
 import Chatroom from "./Components/Chatroom";
 import Classes from "./Components/Classes";
-import Subject from "./Components/Subject";
-import SubjectsList from "./Components/SubjectsList";
 import { UserProvider } from "./Context/UserContext";
 import "bootstrap/dist/css/bootstrap.min.css";
 import NavBar from "./Components/Navbar";
@@ -26,8 +24,6 @@ function App() {
               <Route path="/" element={<Home />} />
               <Route path="/profile" element={<Profile />} />
               <Route path="/class/" element={<Classes />} />
-              <Route path="/subjects" element={<SubjectsList />} />
-              <Route path="/subjects/:id" element={<Subject />} />
               <Route path="/tests" element={<Test />} />
               <Route path="/questions/:testId" element={<QuestionList />} />
               <Route path="/questions/:testId/:id" element={<Question />} />
