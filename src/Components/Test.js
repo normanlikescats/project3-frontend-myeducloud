@@ -9,15 +9,20 @@ import TestForm from "./TestForm";
 export default function Test() {
   const navigate = useNavigate();
   const [tests, setTests] = useState("");
+  const [changeTracker, setChangeTracker] = useState("");
 
   useEffect(() => {
     axios.get(`${BACKEND_URL}/test/all`).then((response) => {
       setTests(response.data);
     });
-  }, []);
+  }, [changeTracker]);
 
   function handleClick(testId) {
     navigate(`/questions/${testId}`);
+  }
+
+  function toggleRefresh(){
+    setChangeTracker(()=>changeTracker+1)
   }
 
   let testItems;
@@ -31,7 +36,7 @@ export default function Test() {
   return (
     <div>
       All the Tests
-      <TestForm/>
+      <TestForm toggleRefresh={toggleRefresh}/>
       {testItems}
     </div>
   );

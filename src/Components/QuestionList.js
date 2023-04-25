@@ -11,10 +11,20 @@ export default function QuestionList() {
   const pathname = location.pathname.split("/");
   const testId = pathname[2];
   const [questions, setQuestions] = useState([]);
+  const [testName, setTestName] = useState('')
 
+  //pull test questions
   useEffect(() => {
     axios.get(`${BACKEND_URL}/questionnaire/${testId}`).then((response) => {
       setQuestions(response.data);
+    });
+  }, []);
+
+
+  //pull test name
+  useEffect(() => {
+    axios.get(`${BACKEND_URL}/test/testid/${testId}`).then((response) => {
+      setTestName(response.data[0].name);
     });
   }, []);
 
@@ -59,7 +69,7 @@ export default function QuestionList() {
 
   return (
     <div>
-      Test {testId}!
+      Test {testName}!
       <QuestionForm testId={1} />
       {questionItems}
     </div>
