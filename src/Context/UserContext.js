@@ -8,8 +8,10 @@ export const UserContext = createContext("test");
 
 export function UserProvider({ children }) {
   const [dbUser, setDbUser] = useState(null);
-  const { isAuthenticated, user, loginWithRedirect } = useAuth0();
   const [accessToken, setAccessToken] = useState();
+  const { isAuthenticated, user, loginWithRedirect, getAccessTokenSilently } =
+    useAuth0();
+
 
   const loginButton = (
     <Button onClick={() => loginWithRedirect()}>Log In</Button>
@@ -30,9 +32,7 @@ export function UserProvider({ children }) {
   };
 
   const checkUser = async () => {
-    if (!isAuthenticated) {
-      navigate("/");
-    } else {
+    if (isAuthenticated) {
       let token = await getAccessTokenSilently({
         audience: process.env.REACT_APP_AUDIENCE,
         scope: "openid profile email phone",
