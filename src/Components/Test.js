@@ -2,6 +2,7 @@ import React from "react";
 import axios from "axios";
 import { useState, useEffect } from 'react';
 import { useNavigate } from "react-router-dom";
+import TestForm from "./TestForm";
 
 export default function Test(){
   const navigate = useNavigate();
@@ -32,6 +33,7 @@ export default function Test(){
   return(
     <div>
       All the Tests
+      <TestForm/>
       {testItems}
     </div>
   )
