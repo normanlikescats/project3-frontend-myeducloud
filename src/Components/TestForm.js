@@ -1,22 +1,18 @@
 import React from "react";
 import axios from "axios";
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useContext } from 'react';
 import { useNavigate } from "react-router-dom";
 import { BACKEND_URL } from "../constant";
 import Select from "react-select";
-import { UserAuth } from "../Context/UserContext";
+import { UserContext } from "../Context/UserContext";
 
 export default function TestForm(props){
+  const user = useContext(UserContext);
   const navigate = useNavigate();
-  const [accessToken, setAccessToken] = useState();
   const [options, setOptions] = useState('')
   const [selectedOption, setSelectedOption] = useState('')
   const [name, setName] = useState('')
-  const { checkUser } = UserAuth();
-
-  useEffect(()=>{
-    checkUser();
-  })
+  
 
   useEffect(()=>{
     axios.get(`${BACKEND_URL}/test/class`).then((response)=>{
@@ -27,14 +23,13 @@ export default function TestForm(props){
 
   function handleSubmit(e){
     e.preventDefault();
-    // fill in url
     axios.post(`${BACKEND_URL}/test/add`, {
       name: name,
       classIds: selectedOption
       },
       {
         headers: {
-          Authorization: `Bearer ${accessToken}`
+          Authorization: `Bearer ${user.accessToken}`
         },
       }
       ).then((response)=>{
@@ -60,7 +55,7 @@ export default function TestForm(props){
     }
   };
 
-  console.log(accessToken)
+  console.log(user.accessToken)
   return(
     <form onSubmit={handleSubmit}>
       <h1>Create Test</h1>
