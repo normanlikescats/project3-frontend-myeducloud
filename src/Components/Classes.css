@@ -1,0 +1,39 @@
+.class-directory {
+  display: flex;
+  color: #a5d7e8;
+}
+
+.link-question {
+  margin: 1rem 2rem;
+  box-sizing: border-box;
+  width: 5rem;
+  height: 2rem;
+}
+
+.link-chatroom {
+  margin: 1rem 2rem;
+  box-sizing: border-box;
+  width: 5rem;
+  height: 2rem;
+}
+
+.link-test {
+  margin: 1rem 2rem;
+  box-sizing: border-box;
+  width: 5rem;
+  height: 2rem;
+}
+
+.class-directory a {
+  border: 2px solid #0b2447;
+  color: #19376d;
+  border-radius: 1rem;
+  padding: 1rem;
+  background-image: linear-gradient(to bottom right, #576cbc, #a5d7e8);
+  text-decoration: none;
+}
+
+.class-joined {
+  margin-bottom: 1rem;
+  color: #19376d;
+}
