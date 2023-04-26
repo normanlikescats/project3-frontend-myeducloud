@@ -7,6 +7,7 @@ import ScoreForm from "./ScoreForm";
 import { useContext } from "react";
 import { BACKEND_URL } from "../constant";
 import { UserContext } from "../Context/UserContext";
+import Comment from "./Comment";
 
 export default function Question(props) {
   const [options, setOptions] = useState([]);
@@ -223,6 +224,9 @@ export default function Question(props) {
         </form>
       )}
       {studentAnswersComponent}
+      <div>
+        <Comment questionId={questionId} />
+      </div>
     </div>
   );
 }

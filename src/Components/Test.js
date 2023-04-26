@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import axios from "axios";
 import { useState, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
@@ -12,6 +12,8 @@ export default function Test() {
   const [changeTracker, setChangeTracker] = useState("");
   const user = useContext(UserContext);
 
+  const user = useContext(UserContext);
+
   useEffect(() => {
     axios.get(`${BACKEND_URL}/test/all`).then((response) => {
       setTests(response.data);
@@ -22,8 +24,8 @@ export default function Test() {
     navigate(`/questions/${testId}`);
   }
 
-  function toggleRefresh(){
-    setChangeTracker(()=>changeTracker+1)
+  function toggleRefresh() {
+    setChangeTracker(() => changeTracker + 1);
   }
 
   function handleDelete(id, users_class_subject_id){
@@ -54,9 +56,18 @@ export default function Test() {
 
   return (
     <div>
-      All the Tests
-      <TestForm toggleRefresh={toggleRefresh}/>
-      {testItems}
+      {user.dbUser.status ? (
+        <div>
+          All the Tests
+          <TestForm toggleRefresh={toggleRefresh} />
+          {testItems}
+        </div>
+      ) : (
+        <div>
+          All the Tests
+          <div>{testItems}</div>
+        </div>
+      )}
     </div>
   );
 }
