@@ -1,6 +1,5 @@
-import React from "react";
+import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
-import { useState, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { BACKEND_URL } from "../constant";
 import { UserContext } from "../Context/UserContext";
@@ -25,9 +24,10 @@ export default function QuestionForm(props) {
   useEffect(() => {
     axios
       .get(
-        `${BACKEND_URL}/score/question/${props.question_id}/user/${props.user_id}`, {
+        `${BACKEND_URL}/score/question/${props.question_id}/user/${props.user_id}`,
+        {
           headers: {
-            Authorization: `Bearer ${user.accessToken}`
+            Authorization: `Bearer ${user.accessToken}`,
           },
         }
       )
@@ -44,37 +44,43 @@ export default function QuestionForm(props) {
     e.preventDefault();
     if (scored === true) {
       axios
-        .put(`${BACKEND_URL}/score/edit/${props.student_answer_id}`, {
-          score: score,
-        }, {
-          headers: {
-            Authorization: `Bearer ${user.accessToken}`
+        .put(
+          `${BACKEND_URL}/score/edit/${props.student_answer_id}`,
+          {
+            score: score,
           },
-        })
+          {
+            headers: {
+              Authorization: `Bearer ${user.accessToken}`,
+            },
+          }
+        )
         .then(() => {
           alert("Score updated");
           navigate(`/questions/${testId}/${props.question_id}`);
         });
     } else {
       axios
-        .post(`${BACKEND_URL}/score/add/${props.student_answer_id}`, {
-          test_id: Number(testId),
-          user_id: Number(props.user_id),
-          student_answer_id: props.student_answer_id,
-          score: score,
-        }, {
-          headers: {
-            Authorization: `Bearer ${user.accessToken}`
+        .post(
+          `${BACKEND_URL}/score/add/${props.student_answer_id}`,
+          {
+            test_id: Number(testId),
+            user_id: Number(props.user_id),
+            student_answer_id: props.student_answer_id,
+            score: score,
           },
-        })
+          {
+            headers: {
+              Authorization: `Bearer ${user.accessToken}`,
+            },
+          }
+        )
         .then(() => {
           alert("Score submitted");
           navigate(`/questions/${testId}/${props.question_id}`);
         });
     }
   }
-  console.log(score)
-  console.log(scored)
 
   return (
     <form id="score-form" onSubmit={handleSubmit}>

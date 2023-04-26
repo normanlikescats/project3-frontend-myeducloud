@@ -1,20 +1,17 @@
 import { Link } from "react-router-dom";
 import { Navbar, Nav, Container } from "react-bootstrap";
-import "../Navbar.css";
-import { useContext } from "react";
-import { UserContext } from "../Context/UserContext";
+import "./Navbar.css";
 
 export default function NavBar() {
-  const user = useContext(UserContext);
-
   return (
-    <Navbar>
+    <Navbar bg="dark">
       <Container>
-        <Nav className="navbar">
-          <Link to="/">Home</Link>
-          <Link to="/profile">My Profile</Link>
-          <Link to="/class/">My Class</Link>
-          <Link to="/tests">Tests</Link>
+        <Navbar.Brand as={Link} to="/">
+          MyEduCloud
+        </Navbar.Brand>
+        <Nav>
+          <Link to="/profile">PROFILE</Link>
+          <Link to="/class/">CLASS</Link>
         </Nav>
       </Container>
     </Navbar>

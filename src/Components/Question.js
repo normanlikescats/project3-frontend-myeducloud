@@ -1,13 +1,10 @@
-import React from "react";
-import { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import { useNavigate, useLocation } from "react-router-dom";
 import QuestionEditForm from "./QuestionEditForm";
 import ScoreForm from "./ScoreForm";
-import { useContext } from "react";
 import { BACKEND_URL } from "../constant";
 import { UserContext } from "../Context/UserContext";
-import Comment from "./Comment";
 import Button from 'react-bootstrap/Button';
 import "./Question.css"
 
@@ -41,26 +38,28 @@ export default function Question(props) {
           response.data[0].option_e,
         ]);
         setQuestion(response.data[0].question);
-        console.log(`response test id: ${response.data[0].test_id}`)
+        console.log(`response test id: ${response.data[0].test_id}`);
         setTestId(response.data[0].test_id);
       });
   }, [editMode]);
 
   // Pull student's answer if they have...
   useEffect(() => {
-    axios.get(`${BACKEND_URL}/answers/${questionId}/${user.dbUser.id}`, {
-      headers: {
-        Authorization: `Bearer ${user.accessToken}`
-      },
-    }).then((response) => {
-      if (response.data.length !== 0) {
-        console.log("we have answer!!!");
-        setSelectedOption(response.data[0].answer);
-        setAnswered(true);
-      } else {
-        console.log("NO answer!!!");
-      }
-    });
+    axios
+      .get(`${BACKEND_URL}/answers/${questionId}/${user.dbUser.id}`, {
+        headers: {
+          Authorization: `Bearer ${user.accessToken}`,
+        },
+      })
+      .then((response) => {
+        if (response.data.length !== 0) {
+          console.log("we have answer!!!");
+          setSelectedOption(response.data[0].answer);
+          setAnswered(true);
+        } else {
+          console.log("NO answer!!!");
+        }
+      });
   }, [answerChange]);
 
     useEffect(() => {
@@ -82,14 +81,16 @@ export default function Question(props) {
 
   // Pull all students answers if user is a teacher
   useEffect(() => {
-    if (user.dbUser.status === true){
-      axios.get(`${BACKEND_URL}/answers/${questionId}`,{
-        headers: {
-          Authorization: `Bearer ${user.accessToken}`
-        },
-      }).then((response) => {
-        setStudentAnswersArray(response.data);
-      });
+    if (user.dbUser.status === true) {
+      axios
+        .get(`${BACKEND_URL}/answers/${questionId}`, {
+          headers: {
+            Authorization: `Bearer ${user.accessToken}`,
+          },
+        })
+        .then((response) => {
+          setStudentAnswersArray(response.data);
+        });
     }
   }, [answerChange]);
 
@@ -99,13 +100,17 @@ export default function Question(props) {
     console.log(selectedOption);
     if (answered) {
       axios
-        .put(`${BACKEND_URL}/answers/${questionId}/${user.dbUser.id}`, {
-          user_id: user.dbUser.id,
-          answer: selectedOption,
-        }, {
-          headers: {
-          Authorization: `Bearer ${user.accessToken}`
-        },}
+        .put(
+          `${BACKEND_URL}/answers/${questionId}/${user.dbUser.id}`,
+          {
+            user_id: user.dbUser.id,
+            answer: selectedOption,
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${user.accessToken}`,
+            },
+          }
         )
         .then(() => {
           setAnswerChange((answerChange) => {
@@ -115,15 +120,19 @@ export default function Question(props) {
         });
     } else {
       axios
-        .post(`${BACKEND_URL}/answers/${questionId}`, {
-          questionnaire_id: questionId,
-          user_id: user.dbUser.id,
-          answer: selectedOption,
-        }, {
-          headers: {
-          Authorization: `Bearer ${user.accessToken}`
-        },
-      })
+        .post(
+          `${BACKEND_URL}/answers/${questionId}`,
+          {
+            questionnaire_id: questionId,
+            user_id: user.dbUser.id,
+            answer: selectedOption,
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${user.accessToken}`,
+            },
+          }
+        )
         .then(() => {
           setAnswered(true);
           setAnswerChange((answerChange) => {
@@ -138,17 +147,17 @@ export default function Question(props) {
     axios
       .delete(`${BACKEND_URL}/questionnaire/delete/${questionId}`, {
         headers: {
-          Authorization: `Bearer ${user.accessToken}`
+          Authorization: `Bearer ${user.accessToken}`,
         },
       })
       .then(() => {
-        console.log("delete: ", testId)
+        console.log("delete: ", testId);
         alert("Question Deleted!");
         navigate(`/questions/${testId}`);
       });
   }
 
-  function handleBack(){
+  function handleBack() {
     navigate(`/questions/${testId}`);
   }
 
@@ -200,13 +209,13 @@ export default function Question(props) {
           <p>
             {answer.user.first_name} {answer.user.last_name}: {answer.answer}
           </p>
-          {user.dbUser.status 
-          ? <ScoreForm
-            user_id={answer.user_id}
-            question_id={questionId}
-            student_answer_id={answer.id}
-          /> 
-          : null}
+          {user.dbUser.status ? (
+            <ScoreForm
+              user_id={answer.user_id}
+              question_id={questionId}
+              student_answer_id={answer.id}
+            />
+          ) : null}
         </div>
       );
     });

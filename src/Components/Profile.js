@@ -9,7 +9,9 @@ import {
   FormLabel,
   FormControl,
   Button,
+  Table,
 } from "react-bootstrap";
+import "./Profile.css";
 
 export default function Profile() {
   const { isAuthenticated, user, getAccessTokenSilently } = useAuth0();
@@ -22,12 +24,13 @@ export default function Profile() {
   const [photoUrl, setPhotoUrl] = useState("");
   const [profile, setProfile] = useState({});
   const [editStatus, setEditStatus] = useState(false);
+  const defaultProfilePic =
+    "https://cdn-icons-png.flaticon.com/512/847/847970.png?w=826&t=st=1682395723~exp=1682396323~hmac=8a0ac7236e2391452d71f488f252dbb730ec4412bed1e23abba30ac7421dff84";
 
   useEffect(() => {
     checkUser();
     retrieveProfile();
   }, []);
-  console.log(accessToken);
 
   const checkUser = async () => {
     if (!isAuthenticated) {
@@ -37,11 +40,13 @@ export default function Profile() {
         audience: process.env.REACT_APP_AUDIENCE,
         scope: "openid profile email phone",
       });
+      console.log("token", token);
       setAccessToken(token);
     }
   };
 
   const retrieveProfile = async () => {
+    console.log("accessToken", accessToken);
     await axios
       .post(
         `${BACKEND_URL}/profile`,
@@ -67,17 +72,16 @@ export default function Profile() {
       });
   };
 
-  console.log(profile);
   const displayProfile = (
-    <div>
-      <div>
-        <img src={`${photoUrl}`} />
-      </div>
+    <div className="profile">
       <div>ID: {profile.id}</div>
       <div>First Name: {profile.first_name}</div>
       <div>Last Name: {profile.last_name}</div>
       <div>Email: {profile.email}</div>
       <div>Status: {profile.status ? "Teacher" : "Student"}</div>
+      <Button variant="light" onClick={(e) => setEditStatus(true)}>
+        Edit Profile
+      </Button>
     </div>
   );
 
@@ -126,6 +130,7 @@ export default function Profile() {
           />
         </FormGroup>
         <FormGroup>
+          <FormLabel>Status:</FormLabel>
           <FormControl
             as="select"
             onChange={(e) => {
@@ -138,17 +143,22 @@ export default function Profile() {
         </FormGroup>
         <Button type="submit" value="submit">
           Submit
+        </Button>{" "}
+        <Button
+          onClick={() => {
+            setEditStatus(false);
+          }}
+        >
+          Cancel
         </Button>
       </Form>
     </div>
   );
 
   return (
-    <div>
-      <div>My Profile</div>
-      <div>
-        <Button onClick={(e) => setEditStatus(true)}>Edit Profile</Button>
-      </div>
+    <div className="profile-body">
+      <div className="profile-title">My Profile </div>
+
       {editStatus ? editProfile : displayProfile}
     </div>
   );
