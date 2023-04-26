@@ -97,7 +97,7 @@ export default function QuestionList() {
     <div>
       <Button style={{float: "left"}} onClick={handleBack}>Back</Button>
       <div className="question-list-flex">
-        <h2 style={{margin: "3vmin 0 3vmin 0"}}>Test: {testName}!</h2>
+        <h2 style={{margin: "3vmin 0 3vmin 0"}} className="dark-blue-text">Test: {testName}!</h2>
         {user.dbUser.status ? <QuestionForm testId={testId} toggleRefresh={toggleRefresh}/> : null}
         {questionItems}
       </div>

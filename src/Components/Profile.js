@@ -72,6 +72,10 @@ export default function Profile() {
       });
   };
 
+  function handleTests(){
+    navigate("/tests")
+  }
+
   const displayProfile = (
     <div className="profile">
       <div>ID: {profile.id}</div>
@@ -79,9 +83,14 @@ export default function Profile() {
       <div>Last Name: {profile.last_name}</div>
       <div>Email: {profile.email}</div>
       <div>Status: {profile.status ? "Teacher" : "Student"}</div>
-      <Button variant="light" onClick={(e) => setEditStatus(true)}>
-        Edit Profile
-      </Button>
+      <div style={{margin: "2vmin 0 0 0"}} >
+        <Button onClick={(e) => setEditStatus(true)}>
+          Edit Profile
+        </Button>
+        {profile.status ? <Button style={{margin: "0 0 0 2vmin"}} onClick={handleTests}>
+          Tests
+        </Button>: null}
+      </div>
     </div>
   );
 

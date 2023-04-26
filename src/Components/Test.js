@@ -62,7 +62,7 @@ export default function Test() {
         : null
       }
       <div className="test-list-flex">
-        <h2> Current Tests </h2>
+        <h2 className="dark-blue-text"> Current Tests </h2>
         {testItems}
       </div>
     </div>

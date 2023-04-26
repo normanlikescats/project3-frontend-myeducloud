@@ -68,7 +68,7 @@ export default function TestForm(props) {
   return(
     <div>
       <form id="test-form" className="test-form" onSubmit={handleSubmit}>
-        <h1>Create A Test</h1>
+        <h1 className="dark-blue-text">Create A Test</h1>
         <Select
           className="test-form-input"
           styles = {selectFieldStyles}

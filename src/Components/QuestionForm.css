@@ -14,7 +14,7 @@
 .question-form-field{
   border-radius: 5px;
   width: 75%;
-  padding: 0.5vmin 0 0.5vmin 0.5vmin
+  padding: 0.5vmin;
 }
 
 .question-form{
