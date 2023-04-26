@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import axios from "axios";
-import { useState, useEffect, useContext } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { BACKEND_URL } from "../constant";
 import TestForm from "./TestForm";
@@ -10,8 +10,6 @@ export default function Test() {
   const navigate = useNavigate();
   const [tests, setTests] = useState("");
   const [changeTracker, setChangeTracker] = useState("");
-  const user = useContext(UserContext);
-
   const user = useContext(UserContext);
 
   useEffect(() => {

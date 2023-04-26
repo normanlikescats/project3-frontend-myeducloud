@@ -19,7 +19,7 @@ export default function TestForm(props){
       console.log(response.data);
       setOptions(response.data);
       setAccessToken(user.accessToken);
-    });
+    })
   }, []);
 
   function handleSubmit(e) {
