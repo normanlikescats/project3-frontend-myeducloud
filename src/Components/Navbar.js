@@ -4,10 +4,12 @@ import "../Navbar.css";
 
 export default function NavBar() {
   return (
-    <Navbar>
+    <Navbar bg="dark">
       <Container>
-        <Nav className="navbar">
-          <Link to="/">Home</Link>
+        <Navbar.Brand as={Link} to="/">
+          MyEduCloud
+        </Navbar.Brand>
+        <Nav>
           <Link to="/profile">My Profile</Link>
           <Link to="/class/">My Class</Link>
         </Nav>

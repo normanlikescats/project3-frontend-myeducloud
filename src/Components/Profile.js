@@ -9,6 +9,7 @@ import {
   FormLabel,
   FormControl,
   Button,
+  Table,
 } from "react-bootstrap";
 import "../Profile.css";
 
@@ -23,6 +24,8 @@ export default function Profile() {
   const [photoUrl, setPhotoUrl] = useState("");
   const [profile, setProfile] = useState({});
   const [editStatus, setEditStatus] = useState(false);
+  const defaultProfilePic =
+    "https://cdn-icons-png.flaticon.com/512/847/847970.png?w=826&t=st=1682395723~exp=1682396323~hmac=8a0ac7236e2391452d71f488f252dbb730ec4412bed1e23abba30ac7421dff84";
 
   useEffect(() => {
     checkUser();
@@ -37,11 +40,13 @@ export default function Profile() {
         audience: process.env.REACT_APP_AUDIENCE,
         scope: "openid profile email phone",
       });
+      console.log("token", token);
       setAccessToken(token);
     }
   };
 
   const retrieveProfile = async () => {
+    console.log("accessToken", accessToken);
     await axios
       .post(
         `${BACKEND_URL}/profile`,
