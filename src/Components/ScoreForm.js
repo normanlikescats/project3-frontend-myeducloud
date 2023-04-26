@@ -3,6 +3,8 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { BACKEND_URL } from "../constant";
 import { UserContext } from "../Context/UserContext";
+import Button from 'react-bootstrap/Button';
+import "./ScoreForm.css"
 
 export default function QuestionForm(props) {
   const navigate = useNavigate();
@@ -81,24 +83,19 @@ export default function QuestionForm(props) {
   }
 
   return (
-    <form onSubmit={handleSubmit}>
-      {user.dbUser.status ? (
-        <div>
-          <p>Score: </p>
-          <input
-            type="text"
-            value={score}
-            onChange={(e) => {
-              setScore(e.target.value);
-            }}
-          />
-          <input type="submit" value="Confirm" />
-        </div>
-      ) : (
-        <div>
-          <p>Score: {score}</p>
-        </div>
-      )}
+    <form id="score-form" onSubmit={handleSubmit}>
+      <div className="score-form-div">
+        <p className="score-text">Score: </p>
+        <input
+        type="text"
+        value={score}
+        onChange={(e) => {
+          setScore(e.target.value);
+        }}
+        className="score-field"
+        /> 
+        <Button form="score-form" type="submit">Confirm</Button>
+      </div>
     </form>
   );
 }

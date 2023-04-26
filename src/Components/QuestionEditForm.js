@@ -3,6 +3,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { BACKEND_URL } from "../constant";
 import { UserContext } from "../Context/UserContext";
+import Button from 'react-bootstrap/Button';
 
 export default function QuestionEditForm(props) {
   const [question, setQuestion] = useState(props.question);
@@ -46,52 +47,71 @@ export default function QuestionEditForm(props) {
   }
 
   return (
-    <div>
-      <form onSubmit={handleSubmit}>
-        <label>Question:</label>
-        <input
-          type="text"
-          placeholder={question}
-          value={question}
-          onChange={(e) => setQuestion(e.target.value)}
-        />
-        <label>Option A: </label>
-        <input
-          type="text"
-          placeholder="Option A"
-          value={optionA}
-          onChange={(e) => setOptionA(e.target.value)}
-        />
-        <label>Option B: </label>
-        <input
-          type="text"
-          placeholder="Option B"
-          value={optionB}
-          onChange={(e) => setOptionB(e.target.value)}
-        />
-        <label>Option C: </label>
-        <input
-          type="text"
-          placeholder="Option C"
-          value={optionC}
-          onChange={(e) => setOptionC(e.target.value)}
-        />
-        <label>Option D: </label>
-        <input
-          type="text"
-          placeholder="Option D"
-          value={optionD}
-          onChange={(e) => setOptionD(e.target.value)}
-        />
-        <label>Option E: </label>
-        <input
+    <div className="question-form">
+      <form id="question-edit-form" className="question-form-flex" onSubmit={handleSubmit}>
+        <h2>Edit Question</h2>
+        <div className="question-form-input"> 
+          <label>Question:</label>
+          <input
+            type="text"
+            placeholder="Enter question here"
+            className="question-form-field"
+            value={question}
+            onChange={(e) => setQuestion(e.target.value)}
+          />
+        </div>
+        <div className="question-form-input">
+          <label>Option A: </label>
+          <input
+            type="text"
+            placeholder="Option A"
+            className="question-form-field"
+            value={optionA}
+            onChange={(e) => setOptionA(e.target.value)}
+          />
+        </div>
+        <div className="question-form-input">
+          <label>Option B: </label>
+          <input
+            type="text"
+            placeholder="Option B"
+            className="question-form-field"
+            value={optionB}
+            onChange={(e) => setOptionB(e.target.value)}
+          />
+        </div>
+        <div className="question-form-input">
+          <label>Option C: </label>
+          <input
+            type="text"
+            placeholder="Option C"
+            className="question-form-field"
+            value={optionC}
+            onChange={(e) => setOptionC(e.target.value)}
+          /> 
+        </div>
+        <div className="question-form-input">
+          <label>Option D: </label>
+          <input
+            type="text"
+            placeholder="Option D"
+            className="question-form-field"
+            value={optionD}
+            onChange={(e) => setOptionD(e.target.value)}
+          />
+        </div>
+        <div className="question-form-input">
+          <label>Option E: </label>
+          <input
           type="text"
           placeholder="Option E"
+          className="question-form-field"
           value={optionE}
           onChange={(e) => setOptionE(e.target.value)}
-        />
-        <input type="submit" value="Confirm changes!" />
+          />
+        </div> 
       </form>
+      <Button type="submit" form="question-edit-form">Confirm changes!</Button>
     </div>
   );
 }

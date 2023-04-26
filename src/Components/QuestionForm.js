@@ -3,6 +3,8 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { BACKEND_URL } from "../constant";
 import { UserContext } from "../Context/UserContext";
+import "./QuestionForm.css";
+import Button from 'react-bootstrap/Button';
 
 export default function QuestionForm(props) {
   const [question, setQuestion] = useState("");
@@ -36,9 +38,7 @@ export default function QuestionForm(props) {
         }
       )
       .then((response) => {
-        console.log("response");
-        console.log(response.data.id);
-        navigate(`/questions/${testId}/${response.data.id}`);
+        props.toggleRefresh();
       })
       .catch(function (error) {
         console.log(error);
@@ -46,53 +46,71 @@ export default function QuestionForm(props) {
   }
 
   return (
-    <div>
-      <form onSubmit={handleSubmit}>
+    <div className="question-form">
+      <form id="question-form" className="question-form-flex" onSubmit={handleSubmit}>
         <h2>New Question</h2>
-        <label>Question:</label>
-        <input
-          type="text"
-          placeholder="Enter question here"
-          value={question}
-          onChange={(e) => setQuestion(e.target.value)}
-        />
-        <label>Option A: </label>
-        <input
-          type="text"
-          placeholder="Option A"
-          value={optionA}
-          onChange={(e) => setOptionA(e.target.value)}
-        />
-        <label>Option B: </label>
-        <input
-          type="text"
-          placeholder="Option B"
-          value={optionB}
-          onChange={(e) => setOptionB(e.target.value)}
-        />
-        <label>Option C: </label>
-        <input
-          type="text"
-          placeholder="Option C"
-          value={optionC}
-          onChange={(e) => setOptionC(e.target.value)}
-        />
-        <label>Option D: </label>
-        <input
-          type="text"
-          placeholder="Option D"
-          value={optionD}
-          onChange={(e) => setOptionD(e.target.value)}
-        />
-        <label>Option E: </label>
-        <input
+        <div className="question-form-input"> 
+          <label>Question:</label>
+          <input
+            type="text"
+            placeholder="Enter question here"
+            className="question-form-field"
+            value={question}
+            onChange={(e) => setQuestion(e.target.value)}
+          />
+        </div>
+        <div className="question-form-input">
+          <label>Option A: </label>
+          <input
+            type="text"
+            placeholder="Option A"
+            className="question-form-field"
+            value={optionA}
+            onChange={(e) => setOptionA(e.target.value)}
+          />
+        </div>
+        <div className="question-form-input">
+          <label>Option B: </label>
+          <input
+            type="text"
+            placeholder="Option B"
+            className="question-form-field"
+            value={optionB}
+            onChange={(e) => setOptionB(e.target.value)}
+          />
+        </div>
+        <div className="question-form-input">
+          <label>Option C: </label>
+          <input
+            type="text"
+            placeholder="Option C"
+            className="question-form-field"
+            value={optionC}
+            onChange={(e) => setOptionC(e.target.value)}
+          /> 
+        </div>
+        <div className="question-form-input">
+          <label>Option D: </label>
+          <input
+            type="text"
+            placeholder="Option D"
+            className="question-form-field"
+            value={optionD}
+            onChange={(e) => setOptionD(e.target.value)}
+          />
+        </div>
+        <div className="question-form-input">
+          <label>Option E: </label>
+          <input
           type="text"
           placeholder="Option E"
+          className="question-form-field"
           value={optionE}
           onChange={(e) => setOptionE(e.target.value)}
-        />
-        <input type="submit" value="Add Question!" />
+          />
+        </div> 
       </form>
+      <Button type="submit" form="question-form">Add Question</Button>
     </div>
   );
 }
