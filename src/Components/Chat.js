@@ -91,7 +91,6 @@ export default function Chat({
         />
         <button onClick={sendMessage}>&#9658;</button>
       </div>
-      <button onClick={logout}>Logout</button>
     </div>
   );
 }
