@@ -11,7 +11,7 @@ import {
   Button,
   Table,
 } from "react-bootstrap";
-import "../Profile.css";
+import "./Profile.css";
 
 export default function Profile() {
   const { isAuthenticated, user, getAccessTokenSilently } = useAuth0();

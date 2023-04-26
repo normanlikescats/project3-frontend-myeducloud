@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { Navbar, Nav, Container } from "react-bootstrap";
-import "../Navbar.css";
+import "./Navbar.css";
 
 export default function NavBar() {
   return (
@@ -10,8 +10,8 @@ export default function NavBar() {
           MyEduCloud
         </Navbar.Brand>
         <Nav>
-          <Link to="/profile">My Profile</Link>
-          <Link to="/class/">My Class</Link>
+          <Link to="/profile">PROFILE</Link>
+          <Link to="/class/">CLASS</Link>
         </Nav>
       </Container>
     </Navbar>

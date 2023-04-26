@@ -4,7 +4,7 @@ import { BACKEND_URL } from "../constant";
 import { UserContext } from "../Context/UserContext";
 import { Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import "../Classes.css";
+import "./Classes.css";
 
 export default function Classes() {
   const user = useContext(UserContext);
@@ -72,14 +72,13 @@ export default function Classes() {
           {displayClasses}
         </div>
       ) : (
-        <div>Class Joined: {myClass.class_subjects[0].name}</div>
+        <div className="class-joined">
+          Class Joined: {myClass.class_subjects[0].name}
+        </div>
       )}
       <div>
         {classStatus ? null : (
           <div className="class-directory">
-            <div className="link-question">
-              <Link to={`/questions`}>Questions</Link>
-            </div>
             <div className="link-chatroom">
               <Link to={`/chatroom/${myClass.class_subjects[0].id}`}>
                 Chatroom
