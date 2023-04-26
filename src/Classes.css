@@ -1,0 +1,16 @@
+.class-directory {
+  display: flex;
+  color: #a5d7e8;
+}
+
+.link-question {
+  margin: 1rem 2rem;
+}
+
+.link-chatroom {
+  margin: 1rem 2rem;
+}
+
+.link-test {
+  margin: 1rem 2rem;
+}

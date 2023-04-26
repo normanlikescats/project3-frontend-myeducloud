@@ -1,0 +1,16 @@
+.profile-body {
+  color: #a5d7e8;
+  text-align: left;
+  width: 70vw;
+  height: 70vh;
+  margin: auto;
+}
+
+.profile-title {
+  font-size: 3rem;
+  font-weight: 700;
+}
+
+.profile {
+  font-size: 1.5rem;
+}
