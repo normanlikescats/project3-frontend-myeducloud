@@ -1,0 +1,30 @@
+.test-indiv-flex {
+  display: flex;
+  padding: 2vmin;
+  margin: 1vmin;
+  background-color: #19376D;
+  border-radius: 5px;
+  justify-content: space-between;
+  width: 60vmin;
+  align-items: center;
+}
+
+.test-indiv-flex:hover {
+  background-color: #576CBC;
+}
+
+.test-list-flex{
+  display: flex;
+  flex-direction: column;
+  margin: 3vmin 0 0 0;
+}
+
+.test-form{
+  display:flex;
+  flex-direction: column;
+}
+
+.test-form-input{
+  margin: 1vmin;
+  border-radius: 5px;
+}

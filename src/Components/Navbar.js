@@ -14,7 +14,7 @@ export default function NavBar() {
           <Link to="/">Home</Link>
           <Link to="/profile">My Profile</Link>
           <Link to="/class/">My Class</Link>
-          {user.dbUser.status ? <Link to="/tests">My Tests</Link>: null}
+          <Link to="/tests">Tests</Link>
         </Nav>
       </Container>
     </Navbar>

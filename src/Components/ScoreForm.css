@@ -1,0 +1,15 @@
+.score-form-div{
+  display: flex;
+  align-items: center;
+}
+
+.score-field{
+  max-width: 5vh;
+  max-height: 5vh;
+  margin: 0 1vmin 0 1vmin;
+}
+
+.score-text{
+  align-self: center;
+  margin: 0;
+}

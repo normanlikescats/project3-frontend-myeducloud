@@ -5,6 +5,8 @@ import { useNavigate } from "react-router-dom";
 import { BACKEND_URL } from "../constant";
 import TestForm from "./TestForm";
 import { UserContext } from "../Context/UserContext";
+import Button from 'react-bootstrap/Button';
+import "./Test.css";
 
 export default function Test() {
   const navigate = useNavigate();
@@ -42,11 +44,11 @@ export default function Test() {
   if (tests) {
     testItems = tests.map((test) => {
       return(
-        <div>
-          <button onClick={()=>handleDelete(test.id, test.users_class_subject_id)}>Delete</button>
+        <div className="test-indiv-flex" >
           <div onClick={() => handleClick(test.id)}>
-            Test: {test.name}
+            Test Name: {test.name}
           </div>
+          <Button onClick={()=>handleDelete(test.id, test.users_class_subject_id)}>Delete</Button> 
         </div>
       )
     });
@@ -54,18 +56,14 @@ export default function Test() {
 
   return (
     <div>
-      {user.dbUser.status ? (
-        <div>
-          All the Tests
-          <TestForm toggleRefresh={toggleRefresh} />
-          {testItems}
-        </div>
-      ) : (
-        <div>
-          All the Tests
-          <div>{testItems}</div>
-        </div>
-      )}
+      {user.dbUser.status
+        ? <TestForm toggleRefresh={toggleRefresh} />
+        : null
+      }
+      <div className="test-list-flex">
+        <h2> Current Tests </h2>
+        {testItems}
+      </div>
     </div>
   );
 }

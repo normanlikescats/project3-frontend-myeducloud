@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { BACKEND_URL } from "../constant";
 import Select from "react-select";
 import { UserContext } from "../Context/UserContext";
+import Button from 'react-bootstrap/Button';
 
 export default function TestForm(props){
   const user = useContext(UserContext);
@@ -13,6 +14,13 @@ export default function TestForm(props){
   const [selectedOption, setSelectedOption] = useState('')
   const [name, setName] = useState('')
   const [accessToken, setAccessToken] = useState();
+
+  const selectFieldStyles = {
+    option: (provided) => ({
+      ...provided,
+      color: "black",
+    }),
+  };
 
   useEffect(() => {
     axios.get(`${BACKEND_URL}/test/class`).then((response) => {
@@ -58,22 +66,26 @@ export default function TestForm(props){
 
   console.log(user.accessToken)
   return(
-    <form onSubmit={handleSubmit}>
-      <h1>Create Test</h1>
-      <Select
-        options={optionsArr}
-        onChange={handleSelect}
-        isMulti
-        placeholder="Select Class Subject"
-      />
-      <label>Test Name:</label>
-      <input
-        type="text"
-        value={name}
-        onChange={(e) => setName(e.target.value)}
-        placeholder="Test Name"
-      />
-      <input type="submit" value="Create Test" />
-    </form>
+    <div>
+      <form id="test-form" className="test-form" onSubmit={handleSubmit}>
+        <h1>Create A Test</h1>
+        <Select
+          className="test-form-input"
+          styles = {selectFieldStyles}
+          options={optionsArr}
+          onChange={handleSelect}
+          isMulti
+          placeholder="Select Class Subject"
+        />
+        <input
+          className="test-form-input"
+          type="text"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+          placeholder="Test Name"
+        />
+      </form>
+      <Button type="submit" form="test-form">Create Test</Button>
+    </div>
   );
 }

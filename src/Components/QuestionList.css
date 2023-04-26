@@ -1,0 +1,26 @@
+.question-list-flex{
+  display: flex;
+  flex-direction: column;
+  min-width: 70vw;
+}
+
+.individual-question{
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  text-align: left;
+  background-color: #19376D;
+  border-radius: 5px;
+  padding: 3vmin;
+  margin: 1vmin;
+}
+
+
+.individual-question:hover{
+  background-color: #576CBC;
+}
+
+.list{
+  list-style: none;
+  padding: 0;
+}

@@ -1,0 +1,33 @@
+.question-indiv-page{
+  display: flex;
+  flex-direction: column;
+  min-width: 70vw;
+  justify-content: flex-start;
+  text-align: left;
+  background-color: #19376D;
+  border-radius: 5px;
+  padding: 3vmin;
+}
+
+.question-header{
+  display: flex;
+  justify-content: space-between;
+}
+
+.option-flex{
+  display:flex;
+  justify-content: flex-start;
+  text-align: left;
+}
+
+
+.answers-div{
+  display:flex;
+  flex-direction: column;
+  margin: 8vmin 0 0 0;
+}
+
+.indiv-answer-div{
+  display:flex;
+  justify-content: space-between;
+}

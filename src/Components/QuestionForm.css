@@ -1,0 +1,27 @@
+.question-form-flex {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  text-align: left;
+}
+
+.question-form-input {
+  display: flex;
+  margin: 0.5vmin;
+  justify-content: space-between;
+}
+
+.question-form-field{
+  border-radius: 5px;
+  width: 75%;
+  padding: 0.5vmin 0 0.5vmin 0.5vmin
+}
+
+.question-form{
+  background-color: #19376D;
+  box-sizing: border-box;
+  padding: 2vmin;
+  border-radius: 12px;
+  margin: 2vmin 0 2vmin 0;
+  min-width: 70vw;
+}
