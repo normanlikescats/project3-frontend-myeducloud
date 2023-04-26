@@ -1,8 +1,9 @@
 import React from "react";
 import axios from "axios";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { BACKEND_URL } from "../constant";
+import { UserContext } from "../Context/UserContext";
 
 export default function QuestionForm(props) {
   const [question, setQuestion] = useState("");
@@ -12,6 +13,7 @@ export default function QuestionForm(props) {
   const [optionD, setOptionD] = useState("");
   const [optionE, setOptionE] = useState("");
   const navigate = useNavigate();
+  const user = useContext(UserContext);
   const testId = props.testId;
 
   function handleSubmit(e) {
@@ -25,6 +27,11 @@ export default function QuestionForm(props) {
         option_c: optionC,
         option_d: optionD,
         option_e: optionE,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${user.accessToken}`
+        }
       })
       .then((response) => {
         console.log("response");

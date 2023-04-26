@@ -1,9 +1,10 @@
 import React from "react";
 import QuestionForm from "./QuestionForm";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import axios from "axios";
 import { useNavigate, useLocation } from "react-router-dom";
 import { BACKEND_URL } from "../constant";
+import { UserContext } from "../Context/UserContext";
 
 export default function QuestionList() {
   const navigate = useNavigate();
@@ -11,15 +12,31 @@ export default function QuestionList() {
   const pathname = location.pathname.split("/");
   const testId = pathname[2];
   const [questions, setQuestions] = useState([]);
-
+  const [testName, setTestName] = useState('')
+  const user = useContext(UserContext);
+  console.log(user)
+  
+  //pull test questions
   useEffect(() => {
     axios.get(`${BACKEND_URL}/questionnaire/${testId}`).then((response) => {
       setQuestions(response.data);
     });
   }, []);
 
+
+  //pull test name
+  useEffect(() => {
+    axios.get(`${BACKEND_URL}/test/testid/${testId}`).then((response) => {
+      setTestName(response.data[0].name);
+    });
+  }, []);
+
   function handleDelete(id) {
-    axios.delete(`${BACKEND_URL}/questionnaire/delete/${id}`).then(() => {
+    axios.delete(`${BACKEND_URL}/questionnaire/delete/${id}`,{
+        headers: {
+          Authorization: `Bearer ${user.accessToken}`
+        },
+      }).then(() => {
       navigate(`/questions/${testId}`);
     });
   }
@@ -28,12 +45,21 @@ export default function QuestionList() {
     navigate(`/questions/${testId}/${id}`);
   }
 
+  function handleBack(){
+    if(user.dbUser.status){
+      navigate(`/tests`);
+    } else{
+      navigate(`/class/`);
+    }
+  }
+
+
   let questionItems;
   if (questions) {
     questionItems = questions.map((question, counter) => {
       return (
         <div onClick={() => handleClick(question.id)}>
-          <button onClick={() => handleDelete(question.id)}>Delete</button>
+          { user.dbUser.status ? <button onClick={() => handleDelete(question.id)}>Delete</button> : null } 
           Question {counter + 1}: {question.question}
           <ol>
             {question.option_a ? (
@@ -59,8 +85,9 @@ export default function QuestionList() {
 
   return (
     <div>
-      Test {testId}!
-      <QuestionForm testId={1} />
+      <button onClick={handleBack}>Back</button>
+      Test: {testName}!
+      {user.dbUser.status ? <QuestionForm testId={testId} /> : null}
       {questionItems}
     </div>
   );

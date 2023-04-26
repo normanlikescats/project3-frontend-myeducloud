@@ -11,8 +11,6 @@ import {
   Button,
   Table,
 } from "react-bootstrap";
-import Test from "./Test";
-import "./Profile.css";
 
 export default function Profile() {
   const { isAuthenticated, user, getAccessTokenSilently } = useAuth0();
@@ -88,41 +86,16 @@ export default function Profile() {
   // );
 
   const displayProfile = (
-    <>
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          margin: "20px",
-        }}
-      >
-        <img
-          src={`${profile.photoUrl ? profile.photoUrl : defaultProfilePic}`}
-          alt={profile.first_name || "Profile Picture"}
-          className="profile-pic"
-        />
+    <div>
+      <div>
+        <img src={`${photoUrl}`} />
       </div>
-      <Table variant="dark" bg="dark" striped bordered hover>
-        <tbody>
-          <tr>
-            <td>ID:</td>
-            <td>{profile.id}</td>
-          </tr>
-          <tr>
-            <td>First Name:</td>
-            <td>{profile.first_name}</td>
-          </tr>
-          <tr>
-            <td>Last Name:</td>
-            <td>{profile.last_name}</td>
-          </tr>
-          <tr>
-            <td>Email:</td>
-            <td>{profile.email}</td>
-          </tr>
-        </tbody>
-      </Table>
-    </>
+      <div>ID: {profile.id}</div>
+      <div>First Name: {profile.first_name}</div>
+      <div>Last Name: {profile.last_name}</div>
+      <div>Email: {profile.email}</div>
+      <div>Status: {profile.status ? "Teacher" : "Student"}</div>
+    </div>
   );
 
   const handleSubmit = async (e) => {
@@ -168,6 +141,17 @@ export default function Profile() {
             value={lastName}
             onChange={(e) => setLastName(e.target.value)}
           />
+        </FormGroup>
+        <FormGroup>
+          <FormControl
+            as="select"
+            onChange={(e) => {
+              setStatus(e.target.value);
+            }}
+          >
+            <option value={false}>Student</option>
+            <option value={true}>Teacher</option>
+          </FormControl>
         </FormGroup>
         <Button type="submit" value="submit">
           Submit

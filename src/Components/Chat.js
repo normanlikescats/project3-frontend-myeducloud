@@ -93,9 +93,6 @@ export default function Chat({
         />
         <button onClick={sendMessage}>&#9658;</button>
       </div>
-      <Button as={Link} to="/class">
-        Back to class
-      </Button>
     </div>
   );
 }
