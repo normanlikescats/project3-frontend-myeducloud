@@ -1,6 +1,5 @@
-import React from "react";
+import React, { useState, useEffect, useContext } from "react";
 import axios from "axios";
-import { useState, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { BACKEND_URL } from "../constant";
 import { UserContext } from "../Context/UserContext";
@@ -20,18 +19,22 @@ export default function QuestionEditForm(props) {
     e.preventDefault();
 
     axios
-      .put(`${BACKEND_URL}/questionnaire/edit/${props.questionId}`, {
-        question: question,
-        option_a: optionA,
-        option_b: optionB,
-        option_c: optionC,
-        option_d: optionD,
-        option_e: optionE,
-      },{
-        headers: {
-          Authorization: `Bearer ${user.accessToken}`
+      .put(
+        `${BACKEND_URL}/questionnaire/edit/${props.questionId}`,
+        {
+          question: question,
+          option_a: optionA,
+          option_b: optionB,
+          option_c: optionC,
+          option_d: optionD,
+          option_e: optionE,
         },
-      })
+        {
+          headers: {
+            Authorization: `Bearer ${user.accessToken}`,
+          },
+        }
+      )
       .then((response) => {
         console.log(response.data.id);
         props.setEditMode(false);

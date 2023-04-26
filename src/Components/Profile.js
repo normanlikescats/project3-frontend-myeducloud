@@ -10,6 +10,7 @@ import {
   FormControl,
   Button,
 } from "react-bootstrap";
+import "../Profile.css";
 
 export default function Profile() {
   const { isAuthenticated, user, getAccessTokenSilently } = useAuth0();
@@ -27,7 +28,6 @@ export default function Profile() {
     checkUser();
     retrieveProfile();
   }, []);
-  console.log(accessToken);
 
   const checkUser = async () => {
     if (!isAuthenticated) {
@@ -67,17 +67,16 @@ export default function Profile() {
       });
   };
 
-  console.log(profile);
   const displayProfile = (
-    <div>
-      <div>
-        <img src={`${photoUrl}`} />
-      </div>
+    <div className="profile">
       <div>ID: {profile.id}</div>
       <div>First Name: {profile.first_name}</div>
       <div>Last Name: {profile.last_name}</div>
       <div>Email: {profile.email}</div>
       <div>Status: {profile.status ? "Teacher" : "Student"}</div>
+      <Button variant="light" onClick={(e) => setEditStatus(true)}>
+        Edit Profile
+      </Button>
     </div>
   );
 
@@ -126,6 +125,7 @@ export default function Profile() {
           />
         </FormGroup>
         <FormGroup>
+          <FormLabel>Status:</FormLabel>
           <FormControl
             as="select"
             onChange={(e) => {
@@ -138,17 +138,22 @@ export default function Profile() {
         </FormGroup>
         <Button type="submit" value="submit">
           Submit
+        </Button>{" "}
+        <Button
+          onClick={() => {
+            setEditStatus(false);
+          }}
+        >
+          Cancel
         </Button>
       </Form>
     </div>
   );
 
   return (
-    <div>
-      <div>My Profile</div>
-      <div>
-        <Button onClick={(e) => setEditStatus(true)}>Edit Profile</Button>
-      </div>
+    <div className="profile-body">
+      <div className="profile-title">My Profile </div>
+
       {editStatus ? editProfile : displayProfile}
     </div>
   );

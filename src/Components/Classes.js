@@ -4,6 +4,7 @@ import { BACKEND_URL } from "../constant";
 import { UserContext } from "../Context/UserContext";
 import { Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
+import "../Classes.css";
 
 export default function Classes() {
   const user = useContext(UserContext);
@@ -37,7 +38,7 @@ export default function Classes() {
       }
     });
   };
-  console.log();
+
   const handleJoinButton = async (e) => {
     const classId = e.target.id;
 
@@ -75,17 +76,17 @@ export default function Classes() {
       )}
       <div>
         {classStatus ? null : (
-          <div>
-            <div>
-              <Link to={`/questions`}>My Questionnaire</Link>
+          <div className="class-directory">
+            <div className="link-question">
+              <Link to={`/questions`}>Questions</Link>
             </div>
-            <div>
+            <div className="link-chatroom">
               <Link to={`/chatroom/${myClass.class_subjects[0].id}`}>
-                My Chatroom
+                Chatroom
               </Link>
             </div>
-            <div>
-              <Link to={`/tests`}>My Test</Link>
+            <div className="link-test">
+              <Link to={`/tests`}>Tests</Link>
             </div>
           </div>
         )}
