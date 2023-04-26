@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from "react";
+import { Button } from "react-bootstrap";
+import { Link } from "react-router-dom";
 import ScrollToBottom from "react-scroll-to-bottom";
 
 export default function Chat({
@@ -91,7 +93,6 @@ export default function Chat({
         />
         <button onClick={sendMessage}>&#9658;</button>
       </div>
-      <button onClick={logout}>Logout</button>
     </div>
   );
 }
