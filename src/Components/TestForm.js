@@ -1,18 +1,18 @@
 import React, { useContext } from "react";
 import axios from "axios";
-import { useState, useEffect } from "react";
+import { useState, useEffect } from 'react';
 import { useNavigate } from "react-router-dom";
 import { BACKEND_URL } from "../constant";
 import Select from "react-select";
-import { UserAuth, UserContext } from "../Context/UserContext";
+import { UserContext } from "../Context/UserContext";
 
-export default function TestForm(props) {
-  const navigate = useNavigate();
+export default function TestForm(props){
   const user = useContext(UserContext);
+  const navigate = useNavigate();
+  const [options, setOptions] = useState('')
+  const [selectedOption, setSelectedOption] = useState('')
+  const [name, setName] = useState('')
   const [accessToken, setAccessToken] = useState();
-  const [options, setOptions] = useState("");
-  const [selectedOption, setSelectedOption] = useState("");
-  const [name, setName] = useState("");
 
   useEffect(() => {
     axios.get(`${BACKEND_URL}/test/class`).then((response) => {
@@ -24,20 +24,15 @@ export default function TestForm(props) {
 
   function handleSubmit(e) {
     e.preventDefault();
-    // fill in url
-    axios
-      .post(
-        `${BACKEND_URL}/test/add`,
-        {
-          name: name,
-          classIds: selectedOption,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
+    axios.post(`${BACKEND_URL}/test/add`, {
+      name: name,
+      classIds: selectedOption
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
         }
-      )
+      })
       .then((response) => {
         alert("Test Created!");
         props.toggleRefresh();
@@ -61,7 +56,8 @@ export default function TestForm(props) {
     }
   }
 
-  return (
+  console.log(user.accessToken)
+  return(
     <form onSubmit={handleSubmit}>
       <h1>Create Test</h1>
       <Select

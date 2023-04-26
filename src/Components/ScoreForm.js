@@ -1,14 +1,16 @@
 import React from "react";
 import axios from "axios";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { BACKEND_URL } from "../constant";
+import { UserContext } from "../Context/UserContext";
 
 export default function QuestionForm(props) {
   const navigate = useNavigate();
   const [score, setScore] = useState(null);
   const [testId, setTestId] = useState("");
   const [scored, setScored] = useState(false);
+  const user = useContext(UserContext);
 
   useEffect(() => {
     axios
@@ -21,7 +23,11 @@ export default function QuestionForm(props) {
   useEffect(() => {
     axios
       .get(
-        `${BACKEND_URL}/score/question/${props.question_id}/user/${props.user_id}`
+        `${BACKEND_URL}/score/question/${props.question_id}/user/${props.user_id}`, {
+          headers: {
+            Authorization: `Bearer ${user.accessToken}`
+          },
+        }
       )
       .then((response) => {
         console.log(response.data[0].score);
@@ -32,11 +38,16 @@ export default function QuestionForm(props) {
       });
   }, [testId]);
 
-  function handleSubmit() {
+  function handleSubmit(e) {
+    e.preventDefault();
     if (scored === true) {
       axios
         .put(`${BACKEND_URL}/score/edit/${props.student_answer_id}`, {
           score: score,
+        }, {
+          headers: {
+            Authorization: `Bearer ${user.accessToken}`
+          },
         })
         .then(() => {
           alert("Score updated");
@@ -49,6 +60,10 @@ export default function QuestionForm(props) {
           user_id: Number(props.user_id),
           student_answer_id: props.student_answer_id,
           score: score,
+        }, {
+          headers: {
+            Authorization: `Bearer ${user.accessToken}`
+          },
         })
         .then(() => {
           alert("Score submitted");
@@ -56,18 +71,27 @@ export default function QuestionForm(props) {
         });
     }
   }
+  console.log(score)
+  console.log(scored)
 
   return (
     <form onSubmit={handleSubmit}>
-      <p>Score: </p>
-      <input
+      {user.dbUser.status ? 
+      <div>
+        <p>Score: </p>
+        <input
         type="text"
         value={score}
         onChange={(e) => {
           setScore(e.target.value);
         }}
-      />
+      /> 
       <input type="submit" value="Confirm" />
+      </div> : 
+      <div>
+        <p>Score: {score}</p>
+      </div>
+      }
     </form>
   );
 }

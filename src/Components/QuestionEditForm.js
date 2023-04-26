@@ -1,8 +1,9 @@
 import React from "react";
 import axios from "axios";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { BACKEND_URL } from "../constant";
+import { UserContext } from "../Context/UserContext";
 
 export default function QuestionEditForm(props) {
   const [question, setQuestion] = useState(props.question);
@@ -13,6 +14,7 @@ export default function QuestionEditForm(props) {
   const [optionE, setOptionE] = useState(props.options[4]);
   const navigate = useNavigate();
   const testId = props.testId;
+  const user = useContext(UserContext);
 
   function handleSubmit(e) {
     e.preventDefault();
@@ -25,6 +27,10 @@ export default function QuestionEditForm(props) {
         option_c: optionC,
         option_d: optionD,
         option_e: optionE,
+      },{
+        headers: {
+          Authorization: `Bearer ${user.accessToken}`
+        },
       })
       .then((response) => {
         console.log(response.data.id);
